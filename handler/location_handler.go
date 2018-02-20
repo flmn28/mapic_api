@@ -36,7 +36,10 @@ func PostLocation(c echo.Context) (err error) {
 
 func PutLocation(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	loc, _ := location.Get(id)
+	loc, err := location.Get(id)
+	if err != nil {
+		return
+	}
 	newLoc := new(location.Location)
 	err = c.Bind(newLoc)
 	if err != nil {
@@ -51,7 +54,10 @@ func PutLocation(c echo.Context) (err error) {
 
 func DeleteLocation(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	loc, _ := location.Get(id)
+	loc, err := location.Get(id)
+	if err != nil {
+		return
+	}
 	err = loc.Delete()
 	if err != nil {
 		return
