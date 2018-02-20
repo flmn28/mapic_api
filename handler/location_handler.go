@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/flmn28/mapic_api/models/location"
+	"github.com/flmn28/mapic_api/domain"
 	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
@@ -9,43 +9,43 @@ import (
 
 func GetLocation(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	loc, err := location.Get(id)
+	location, err := domain.GetLocation(id)
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &loc)
+	return c.JSON(http.StatusOK, &location)
 }
 
 func GetAllLocations(c echo.Context) (err error) {
-	loc, _ := location.All()
-	return c.JSON(http.StatusOK, &loc)
+	location, _ := domain.GetAllLocations()
+	return c.JSON(http.StatusOK, &location)
 }
 
 func PostLocation(c echo.Context) (err error) {
-	loc := new(location.Location)
-	err = c.Bind(loc)
+	location := new(domain.Location)
+	err = c.Bind(location)
 	if err != nil {
 		return
 	}
-	err = loc.Create()
+	err = location.Create()
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &loc)
+	return c.JSON(http.StatusOK, &location)
 }
 
 func PutLocation(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	loc, err := location.Get(id)
+	location, err := domain.GetLocation(id)
 	if err != nil {
 		return
 	}
-	newLoc := new(location.Location)
-	err = c.Bind(newLoc)
+	newLocation := new(domain.Location)
+	err = c.Bind(newLocation)
 	if err != nil {
 		return
 	}
-	err = loc.Update(*newLoc)
+	err = location.Update(*newLocation)
 	if err != nil {
 		return
 	}
@@ -54,11 +54,11 @@ func PutLocation(c echo.Context) (err error) {
 
 func DeleteLocation(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	loc, err := location.Get(id)
+	location, err := domain.GetLocation(id)
 	if err != nil {
 		return
 	}
-	err = loc.Delete()
+	err = location.Delete()
 	if err != nil {
 		return
 	}

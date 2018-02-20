@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/flmn28/mapic_api/models/user"
+	"github.com/flmn28/mapic_api/domain"
 	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
@@ -9,38 +9,38 @@ import (
 
 func GetUser(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	usr, err := user.Get(id)
+	user, err := domain.GetUser(id)
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &usr)
+	return c.JSON(http.StatusOK, &user)
 }
 
 func PostUser(c echo.Context) (err error) {
-	usr := new(user.User)
-	err = c.Bind(usr)
+	user := new(domain.User)
+	err = c.Bind(user)
 	if err != nil {
 		return
 	}
-	err = usr.Create()
+	err = user.Create()
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &usr)
+	return c.JSON(http.StatusOK, &user)
 }
 
 func PutUser(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	usr, err := user.Get(id)
+	user, err := domain.GetUser(id)
 	if err != nil {
 		return
 	}
-	newUsr := new(user.User)
-	err = c.Bind(newUsr)
+	newUser := new(domain.User)
+	err = c.Bind(newUser)
 	if err != nil {
 		return
 	}
-	err = usr.Update(*newUsr)
+	err = user.Update(*newUser)
 	if err != nil {
 		return
 	}
@@ -49,11 +49,11 @@ func PutUser(c echo.Context) (err error) {
 
 func DeleteUser(c echo.Context) (err error) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	usr, err := user.Get(id)
+	user, err := domain.GetUser(id)
 	if err != nil {
 		return
 	}
-	err = usr.Delete()
+	err = user.Delete()
 	if err != nil {
 		return
 	}
