@@ -44,7 +44,7 @@ func PutUser(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.String(http.StatusOK, "put!")
+	return c.Redirect(http.StatusMovedPermanently, "/users/" + c.Param("id"))
 }
 
 func DeleteUser(c echo.Context) (err error) {
@@ -57,5 +57,5 @@ func DeleteUser(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.String(http.StatusOK, "deleted!")
+	return c.Redirect(http.StatusMovedPermanently, "/locations")
 }
