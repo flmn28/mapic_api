@@ -16,26 +16,26 @@ type Location struct {
 }
 
 func GetLocation(id int) (location Location, err error) {
-	db.First(&location, id)
+	err = db.First(&location, id).Error
 	return
 }
 
 func GetAllLocations() (locations []Location, err error) {
-	db.Find(&locations)
+	err = db.Find(&locations).Error
 	return
 }
 
 func (location Location) Create() (err error) {
-	db.Create(&location)
+	err = db.Create(&location).Error
 	return
 }
 
 func (location Location) Update(newLocation Location) (err error) {
-	db.Model(&location).Updates(newLocation)
+	err = db.Model(&location).Updates(newLocation).Error
 	return
 }
 
 func (location Location) Delete() (err error) {
-	db.Delete(&location)
+	err = db.Delete(&location).Error
 	return
 }

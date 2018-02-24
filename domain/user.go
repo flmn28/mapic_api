@@ -15,21 +15,21 @@ type User struct {
 }
 
 func GetUser(id int) (user User, err error) {
-	db.First(&user, id)
+	err = db.First(&user, id).Error
 	return
 }
 
 func (user User) Create() (err error) {
-	db.Create(&user)
+	err = db.Create(&user).Error
 	return
 }
 
 func (user User) Update(newUser User) (err error) {
-	db.Model(&user).Updates(newUser)
+	err = db.Model(&user).Updates(newUser).Error
 	return
 }
 
 func (user User) Delete() (err error) {
-	db.Delete(&user)
+	err = db.Delete(&user).Error
 	return
 }
