@@ -23,5 +23,7 @@ func main() {
 	e.PUT("/users/:id", handler.PutUser)
 	e.DELETE("/users/:id", handler.DeleteUser)
 
+	e.POST("/login", handler.Login)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
