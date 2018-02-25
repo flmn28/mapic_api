@@ -24,6 +24,9 @@ func main() {
 	e.DELETE("/users/:id", handler.DeleteUser)
 
 	e.POST("/login", handler.Login)
+	r := e.Group("/restricted")
+	r.Use(middleware.JWT([]byte("secret")))
+	r.GET("", handler.Restricted)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

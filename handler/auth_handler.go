@@ -35,7 +35,16 @@ func Login(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
+
 	return c.JSON(http.StatusOK, map[string]string{
 		"token": t,
 	})
+}
+
+func Restricted(c echo.Context) (err error) {
+	token := c.Get("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	id := int(claims["id"].(float64))
+	user, err := domain.GetUser(id)
+	return c.String(http.StatusOK, "Welcome "+ user.Name +"!")
 }
