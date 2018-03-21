@@ -32,7 +32,7 @@ func PostLocation(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.Redirect(http.StatusMovedPermanently, "/locations")
+	return c.JSON(http.StatusOK, &location)
 }
 
 func PutLocation(c echo.Context) (err error) {
@@ -50,7 +50,7 @@ func PutLocation(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.Redirect(http.StatusMovedPermanently, "/locations/"+c.Param("id"))
+	return c.JSON(http.StatusOK, &newLocation)
 }
 
 func DeleteLocation(c echo.Context) (err error) {
@@ -63,5 +63,5 @@ func DeleteLocation(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.Redirect(http.StatusMovedPermanently, "/locations")
+	return c.JSON(http.StatusOK, &location)
 }
