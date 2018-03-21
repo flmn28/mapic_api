@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"github.com/johskw/mapic_api/domain"
-	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
+
+	"github.com/johskw/mapic_api/domain"
+	"github.com/labstack/echo"
 )
 
 func GetLocation(c echo.Context) (err error) {
@@ -49,7 +50,7 @@ func PutLocation(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.Redirect(http.StatusMovedPermanently, "/locations/" + c.Param("id"))
+	return c.Redirect(http.StatusMovedPermanently, "/locations/"+c.Param("id"))
 }
 
 func DeleteLocation(c echo.Context) (err error) {

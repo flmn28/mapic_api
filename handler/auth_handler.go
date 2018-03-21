@@ -1,15 +1,16 @@
 package handler
 
 import (
-	"github.com/johskw/mapic_api/domain"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/labstack/echo"
 	"net/http"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/johskw/mapic_api/domain"
+	"github.com/labstack/echo"
 )
 
 type Auth struct {
-	ID int `json:"id"`
+	ID       int    `json:"id"`
 	Password string `json:"password"`
 }
 
@@ -46,5 +47,5 @@ func Restricted(c echo.Context) (err error) {
 	claims := token.Claims.(jwt.MapClaims)
 	id := int(claims["id"].(float64))
 	user, err := domain.GetUser(id)
-	return c.String(http.StatusOK, "Welcome "+ user.Name +"!")
+	return c.String(http.StatusOK, "Welcome "+user.Name+"!")
 }

@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"github.com/johskw/mapic_api/domain"
-	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
+
+	"github.com/johskw/mapic_api/domain"
+	"github.com/labstack/echo"
 )
 
 func GetUser(c echo.Context) (err error) {
@@ -44,7 +45,7 @@ func PutUser(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	return c.Redirect(http.StatusMovedPermanently, "/users/" + c.Param("id"))
+	return c.Redirect(http.StatusMovedPermanently, "/users/"+c.Param("id"))
 }
 
 func DeleteUser(c echo.Context) (err error) {
