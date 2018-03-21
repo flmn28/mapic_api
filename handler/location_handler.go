@@ -28,11 +28,11 @@ func PostLocation(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	err = location.Create()
+	url, err := location.Create()
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &location)
+	return c.JSON(http.StatusOK, &url)
 }
 
 func PutLocation(c echo.Context) (err error) {
