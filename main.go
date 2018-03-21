@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/flmn28/mapic_api/handler"
+	"github.com/johskw/mapic_api/handler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/flmn28/mapic_api/domain"
+	"github.com/johskw/mapic_api/domain"
 	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
