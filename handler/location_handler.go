@@ -18,8 +18,8 @@ func GetLocation(c echo.Context) (err error) {
 }
 
 func GetAllLocations(c echo.Context) (err error) {
-	location, _ := domain.GetAllLocations()
-	return c.JSON(http.StatusOK, &location)
+	locations, _ := domain.GetAllLocations()
+	return c.JSON(http.StatusOK, &locations)
 }
 
 func PostLocation(c echo.Context) (err error) {

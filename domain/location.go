@@ -25,11 +25,21 @@ func GetLocation(id int) (location Location, err error) {
 
 func GetAllLocations() (locations []Location, err error) {
 	err = db.Find(&locations).Error
+	for i := range locations {
+		strID := strconv.Itoa(locations[i].ID)
+		file, _ := os.Open("images/locations/" + strID + "/" + strID + ".jpg")
+		defer file.Close()
+		fi, _ := file.Stat()
+		size := fi.Size()
+		data := make([]byte, size)
+		file.Read(data)
+		locations[i].Image = base64.StdEncoding.EncodeToString(data)
+	}
 	return
 }
 
 func (location Location) Create() (createdlocation Location, err error) {
-	location.Image = "image"
+	location.Image = ""
 	err = db.Create(&location).Error
 	createdlocation = location
 	return
