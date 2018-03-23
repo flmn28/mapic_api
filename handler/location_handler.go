@@ -28,11 +28,15 @@ func PostLocation(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	url, err := location.Create()
+	createdLocation, err := location.Create()
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &url)
+	err = location.SaveImage(createdLocation.ID)
+	if err != nil {
+		return
+	}
+	return c.JSON(http.StatusOK, &location)
 }
 
 func PutLocation(c echo.Context) (err error) {

@@ -1,15 +1,10 @@
 package domain
 
 import (
+	"encoding/base64"
 	"os"
 	"strconv"
-	"strings"
 	"time"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
 )
 
 type Location struct {
@@ -33,28 +28,10 @@ func GetAllLocations() (locations []Location, err error) {
 	return
 }
 
-func (location Location) Create() (url string, err error) {
+func (location Location) Create() (createdlocation Location, err error) {
+	location.Image = "image"
 	err = db.Create(&location).Error
-	if err != nil {
-		return
-	}
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("ap-northeast-1"),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("S3_ACCESS_KEY_ID"), os.Getenv("S3_SECRET_ACCESS_KEY"), ""),
-	})
-	if err != nil {
-		return
-	}
-	svc := s3.New(sess)
-	req, _ := svc.PutObjectRequest(&s3.PutObjectInput{
-		Bucket: aws.String("mapic-api-development"),
-		Key:    aws.String("locations/" + strconv.Itoa(location.ID)),
-		Body:   strings.NewReader("test"),
-	})
-	url, err = req.Presign(15 * time.Minute)
-	if err != nil {
-		return
-	}
+	createdlocation = location
 	return
 }
 
@@ -65,5 +42,24 @@ func (location Location) Update(newLocation Location) (err error) {
 
 func (location Location) Delete() (err error) {
 	err = db.Delete(&location).Error
+	return
+}
+
+func (location Location) SaveImage(id int) (err error) {
+	data, err := base64.StdEncoding.DecodeString(location.Image)
+	if err != nil {
+		return
+	}
+	strID := strconv.Itoa(id)
+	err = os.MkdirAll("images/locations/"+strID, 0777)
+	if err != nil {
+		panic(err)
+	}
+	file, _ := os.Create("images/locations/" + strID + "/" + strID + ".jpg")
+	if err != nil {
+		return
+	}
+	defer file.Close()
+	file.Write(data)
 	return
 }
