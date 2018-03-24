@@ -17,28 +17,24 @@ type Auth struct {
 func Login(c echo.Context) (err error) {
 	auth := new(Auth)
 	err = c.Bind(auth)
-
 	user, err := domain.GetUser(auth.ID)
 	if err != nil {
 		return
 	}
-
 	if auth.Password != user.Password {
 		return
 	}
-
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["id"] = auth.ID
-	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-
+	claims["exp"] = time.Now().Add(time.Hour * 876000).Unix()
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {
 		return
 	}
-
-	return c.JSON(http.StatusOK, map[string]string{
+	return c.JSON(http.StatusOK, map[string]interface{}{
 		"token": t,
+		"user":  user,
 	})
 }
 
