@@ -10,14 +10,14 @@ import (
 )
 
 type Auth struct {
-	ID       int    `json:"id"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 func Login(c echo.Context) (err error) {
 	auth := new(Auth)
 	err = c.Bind(auth)
-	user, err := domain.GetUser(auth.ID)
+	user, err := domain.GetUserByEmail(auth.Email)
 	if err != nil {
 		return
 	}
@@ -26,7 +26,7 @@ func Login(c echo.Context) (err error) {
 	}
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["id"] = auth.ID
+	claims["id"] = user.ID
 	claims["exp"] = time.Now().Add(time.Hour * 876000).Unix()
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {

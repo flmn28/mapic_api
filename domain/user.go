@@ -19,6 +19,11 @@ func GetUser(id int) (user User, err error) {
 	return
 }
 
+func GetUserByEmail(email string) (user User, err error) {
+	err = db.Where("email = ?", email).First(&user).Error
+	return
+}
+
 func (user User) Create() (err error) {
 	err = db.Create(&user).Error
 	return
