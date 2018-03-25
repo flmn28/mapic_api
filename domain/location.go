@@ -8,13 +8,13 @@ import (
 )
 
 type Location struct {
-	ID        int     `json:"id" gorm:"primary_key"`
-	Title     string  `json:"title"`
-	Content   string  `json:"content"`
-	Image     string  `json:"image"`
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-	User      User
+	ID        int       `json:"id" gorm:"primary_key"`
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
+	Image     string    `json:"image"`
+	Latitude  float64   `json:"latitude"`
+	Longitude float64   `json:"longitude"`
+	User      User      `json:"user"`
 	UserID    int       `json:"user_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -22,13 +22,26 @@ type Location struct {
 
 func GetLocation(id int) (location Location, err error) {
 	err = db.First(&location, id).Error
+	if err != nil {
+		return
+	}
+	user, err := GetUser(location.UserID)
+	if err != nil {
+		return
+	}
+	location.User = user
 	return
 }
 
 func GetAllLocations() (locations []Location, err error) {
 	err = db.Find(&locations).Error
-	for i := range locations {
-		strID := strconv.Itoa(locations[i].ID)
+	for i, location := range locations {
+		user, err := GetUser(location.UserID)
+		if err != nil {
+			break
+		}
+		locations[i].User = user
+		strID := strconv.Itoa(location.ID)
 		file, _ := os.Open("images/locations/" + strID + "/" + strID + ".jpg")
 		defer file.Close()
 		fi, _ := file.Stat()
