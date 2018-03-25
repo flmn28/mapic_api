@@ -8,12 +8,14 @@ import (
 )
 
 type Location struct {
-	ID        int       `json:"id" gorm:"primary_key"`
-	Title     string    `json:"title"`
-	Content   string    `json:"content"`
-	Image     string    `json:"image"`
-	Latitude  float64   `json:"latitude"`
-	Longitude float64   `json:"longitude"`
+	ID        int     `json:"id" gorm:"primary_key"`
+	Title     string  `json:"title"`
+	Content   string  `json:"content"`
+	Image     string  `json:"image"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+	User      User
+	UserID    int       `json:"user_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
