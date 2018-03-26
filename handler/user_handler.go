@@ -23,11 +23,11 @@ func PostUser(c echo.Context) (err error) {
 	if err != nil {
 		return
 	}
-	err = user.Create()
+	createdUser, err := user.Create()
 	if err != nil {
 		return
 	}
-	return c.JSON(http.StatusOK, &user)
+	return c.JSON(http.StatusOK, &createdUser)
 }
 
 func PutUser(c echo.Context) (err error) {

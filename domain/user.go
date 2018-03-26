@@ -24,8 +24,9 @@ func GetUserByEmail(email string) (user User, err error) {
 	return
 }
 
-func (user User) Create() (err error) {
+func (user User) Create() (createdUser User, err error) {
 	err = db.Create(&user).Error
+	createdUser = user
 	return
 }
 

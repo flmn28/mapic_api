@@ -13,6 +13,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.POST("/users", handler.PostUser)
+	e.POST("/signup", handler.Signup)
 	e.POST("/login", handler.Login)
 
 	r := e.Group("/restricted")
