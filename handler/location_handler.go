@@ -22,6 +22,12 @@ func GetAllLocations(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, &locations)
 }
 
+func GetMyLocations(c echo.Context) (err error) {
+	userID, _ := strconv.Atoi(c.Param("user_id"))
+	locations, _ := domain.GetLocationsByUserId(userID)
+	return c.JSON(http.StatusOK, &locations)
+}
+
 func PostLocation(c echo.Context) (err error) {
 	location := new(domain.Location)
 	err = c.Bind(location)

@@ -22,6 +22,7 @@ func main() {
 	r.GET("", handler.Restricted)
 	r.GET("/locations/:id", handler.GetLocation)
 	r.GET("/locations", handler.GetAllLocations)
+	r.GET("/mylocations/:user_id", handler.GetMyLocations)
 	r.POST("/locations", handler.PostLocation)
 	r.PUT("/locations/:id", handler.PutLocation)
 	r.DELETE("/locations/:id", handler.DeleteLocation)

@@ -53,6 +53,26 @@ func GetAllLocations() (locations []Location, err error) {
 	return
 }
 
+func GetLocationsByUserId(userID int) (locations []Location, err error) {
+	err = db.Where("user_id = ?", strconv.Itoa(userID)).Find(&locations).Error
+	for i, location := range locations {
+		user, err := GetUser(location.UserID)
+		if err != nil {
+			break
+		}
+		locations[i].User = user
+		strID := strconv.Itoa(location.ID)
+		file, _ := os.Open("images/locations/" + strID + "/" + strID + ".jpg")
+		defer file.Close()
+		fi, _ := file.Stat()
+		size := fi.Size()
+		data := make([]byte, size)
+		file.Read(data)
+		locations[i].Image = base64.StdEncoding.EncodeToString(data)
+	}
+	return
+}
+
 func (location Location) Create() (createdlocation Location, err error) {
 	location.Image = ""
 	err = db.Create(&location).Error
